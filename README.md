@@ -2,6 +2,8 @@
 
 Interactive animated bot avatar for native Android (Jetpack Compose) and iOS (SwiftUI), drawn natively. No web view. Colour and mood change at runtime.
 
+![Interactive Bot UI demo: all body shapes changing colour and mood](docs/demo.gif)
+
 ## Install
 
 ### Android (Gradle)
@@ -41,7 +43,6 @@ BotView(
         color = Color(0xFFF5292A),
         brightness = 1.1f, furLength = 2.6f, furDensity = 0.75f,
         face = BotFace.EyesAndMouth,   // or Eyes
-        feather = featherBitmap,         // optional ImageBitmap
     ),
 )
 ```
@@ -56,8 +57,7 @@ Swift package at the repo root (iOS 16+). Demo: `ios/Demo` (`xcodegen generate`,
 BotView(
     state: .happy,                       // see States below
     style: BotStyle(color: Color(red: 0.96, green: 0.16, blue: 0.16),
-                      brightness: 1.1, furLength: 2.6, face: .eyesAndMouth,
-                      feather: UIImage(named: "feather")))
+                      brightness: 1.1, furLength: 2.6, face: .eyesAndMouth))
     .frame(width: 260, height: 260)
 ```
 
@@ -105,7 +105,7 @@ BotStyle(shape: .svg("M20 40C20 10 80 10 80 40C95 55 85 95 50 95C15 95 5 55 20 4
 
 `svg` takes the first sub-path of any SVG path string (`M L H V C S Q Z`, absolute or relative, any
 units, no arcs). It is scaled to fit and stands on the ground. A bad path falls back to the teardrop.
-Fur, shading and the feather pin follow the shape.
+Fur and shading follow the shape.
 
 ## Custom face
 
@@ -128,9 +128,9 @@ oval and slit eyes. Also: `eyeScaleRight`, `lookX`, `lookY`, `mouthScale`, `mout
 
 ## Parity
 
-Both ports share the same sim constants (seeded mulberry32, hop, blink, gaze, feather spring), body path and
+Both ports share the same sim constants (seeded mulberry32, hop, blink, gaze), body path and
 shading. Fur is a close approximation of the web version, not a pixel match. Animation stops when the system
-reduces motion. Leave room above the head for the feather.
+reduces motion. Leave room above the head: badges such as the light bulb float past the body.
 
 ## License
 

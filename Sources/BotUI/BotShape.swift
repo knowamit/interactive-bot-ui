@@ -67,11 +67,6 @@ struct BotOutline: Equatable, Sendable {
         return out
     }
 
-    /// Where the feather pins: right of the crown, same proportions as the teardrop.
-    var featherAnchor: CGPoint {
-        CGPoint(x: bounds.minX + bounds.width * 0.6375, y: bounds.minY + bounds.height * 0.169)
-    }
-
     /// Scaled to fit x 8...92 and stood on the ground (y = 98).
     func fitted() -> BotOutline? {
         guard bounds.width >= 1, bounds.height >= 1 else { return nil }

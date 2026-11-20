@@ -33,9 +33,8 @@ private final class Driver: ObservableObject {
 }
 
 /// BotUI, the fuzzy teardrop companion, drawn natively in SwiftUI. Pick a colour and a mood at runtime.
-/// Give it room above the head if you set a feather: it sticks out past the box.
 public struct BotView: View {
-    /// Room around the 100-unit body box so fur and the feather are not clipped.
+    /// Room around the 100-unit body box so fur and badges are not clipped.
     private static let margin = 15.0
     private let state: BotState
     private let style: BotStyle
@@ -122,13 +121,6 @@ public struct BotView: View {
         if frontness < 1 { body.fill(Path(outline.cgPath()), with: .color(.black.opacity(0.14 * (1 - frontness)))) }
         if frontness > 0 { BotFaceDrawing.draw(&body, state: state, pose: pose, style: style, cosY: cosY, alpha: frontness) }
 
-        if let feather = style.feather {
-            var f = c
-            f.translateBy(x: pose.x, y: pose.y)
-            scaleAbout(&f, pivot, pose.sx, pose.sy)
-            drawFeather(&f, feather, pose, anchor: outline.featherAnchor)
-        }
-
         var badge = c
         badge.translateBy(x: pose.x, y: pose.y)
         scaleAbout(&badge, pivot, pose.sx, pose.sy)
@@ -145,21 +137,6 @@ public struct BotView: View {
         let col = Color(red: 0.16, green: 0.27, blue: 0.43).opacity(0.32 * (1 - air * 0.55))
         c.fill(Path(ellipseIn: rect), with: .radialGradient(
             Gradient(colors: [col, .clear]), center: CGPoint(x: 50, y: 98), startRadius: 0, endRadius: w / 2))
-    }
-
-    /// Same pinning maths as the web and Android versions: the anchor turns with the head.
-    private func drawFeather(_ c: inout GraphicsContext, _ img: UIImage, _ pose: BotPose, anchor: CGPoint) {
-        let px = Double(anchor.x - centre.x), py = Double(anchor.y - centre.y), pz = 6.0
-        let x1 = px * cos(pose.yaw) + pz * sin(pose.yaw)
-        let z1 = -px * sin(pose.yaw) + pz * cos(pose.yaw)
-        let y2 = py * cos(pose.pitch) - z1 * sin(pose.pitch)
-        let z2 = py * sin(pose.pitch) + z1 * cos(pose.pitch)
-        if z2 <= -4 { return }
-        let x3 = x1 * cos(pose.roll) - y2 * sin(pose.roll)
-        let y3 = x1 * sin(pose.roll) + y2 * cos(pose.roll)
-        c.translateBy(x: Double(centre.x) + x3, y: Double(centre.y) + y3)
-        c.rotate(by: .degrees(pose.roll * 180 / .pi + pose.swing))
-        c.draw(Image(uiImage: img), in: CGRect(x: -4, y: -44, width: 48, height: 48))
     }
 }
 

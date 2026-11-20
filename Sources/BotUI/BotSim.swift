@@ -18,8 +18,6 @@ public struct BotPose: Equatable, Sendable {
     public var breath: Double = 0
     public var laugh: Double = 0
     public var sleep: Double = 0
-    /// feather swing relative to the head, degrees
-    public var swing: Double = 0
     /// 0 ... 1 mouth opening while speaking
     public var talk: Double = 0
     /// State being faded out, or nil once the change has finished.
@@ -57,8 +55,7 @@ public struct BotJump: Sendable {
 /// Drives blinks, glances, breathing and hops. Pure maths: call `update(dt:)` once a frame, read `pose`.
 public final class BotSim {
     static let maxDt = 0.1
-    private static let blinkTime = 0.16, moodRate = 6.0, trail = 6.0, faceFade = 0.22
-    private static let maxSwing = 18.0, springK = 60.0, springD = 9.0
+    private static let blinkTime = 0.16, moodRate = 6.0, faceFade = 0.22
 
     private var rng: SeededRandom
     public private(set) var state: BotState
@@ -75,7 +72,6 @@ public final class BotSim {
     private var blinkAt: Double, blinkT = -1.0, blinkAgain = false
     private var gazeAt: Double, gazeTarget = 0.0, gazeYaw = 0.0, gazeVel = 0.0, lookX = 0.0
     private var hopAt = 0.0, hopT = -1.0, hopDir = 1.0
-    private var swing = 0.0, swingVel = 0.0, prevYaw = 0.0
 
     public static func defaultJumpEvery(_ s: BotState) -> Double {
         BotMotion.of(s).jumpEvery
@@ -203,16 +199,10 @@ public final class BotSim {
         let talk = talkM * talkWave
 
         let blink = blinkT >= 0 ? blinkCurve(blinkT / Self.blinkTime) : 0
-        let yawVel = dt > 0 ? (yaw - prevYaw) / dt : 0
-        prevYaw = yaw
-        let target = min(max(-yawVel * Self.trail + roll * 180 / .pi * 0.3, -Self.maxSwing), Self.maxSwing)
-        swingVel += (Self.springK * (target - swing) - Self.springD * swingVel) * dt
-        swing += swingVel * dt
-
         var p = BotPose()
         p.yaw = yaw; p.pitch = pitch; p.roll = roll; p.x = shakeX; p.y = y; p.sx = sx; p.sy = sy
         p.blink = blink; p.lookX = lookX; p.lookY = lookYM
-        p.breath = breath; p.laugh = laughM; p.sleep = sleepM; p.swing = swing
+        p.breath = breath; p.laugh = laughM; p.sleep = sleepM
         p.talk = talk; p.time = t; p.from = fromState; p.blend = smooth(blendT)
         pose = p
     }

@@ -28,7 +28,6 @@ struct DemoView: View {
     @State private var brightness = 1.1
     @State private var furLength = 2.6
     @State private var mouth = true
-    @State private var feather = true
     @State private var custom = false
     @State private var eyes = BotEyes.oval
     @State private var mouthShape = BotMouth.smile
@@ -58,7 +57,7 @@ struct DemoView: View {
                         state: state,
                         style: BotStyle(
                             color: color, face: mouth ? .eyesAndMouth : .eyes, brightness: brightness,
-                            furLength: furLength, feather: feather ? UIImage(named: "feather") : nil,
+                            furLength: furLength,
                             customFace: custom
                                 ? BotFaceSpec(eyes: eyes, mouth: mouthShape, eyeScale: eyeScale,
                                                 eyeTilt: eyeTilt)
@@ -99,7 +98,6 @@ struct DemoView: View {
                 Text(String(format: "Fur length %.1f", furLength))
                 Slider(value: $furLength, in: 0...7)
                 Toggle("Mouth", isOn: $mouth)
-                Toggle("Feather", isOn: $feather)
             }
             .padding(20)
         }

@@ -25,8 +25,6 @@ data class BotStyle(
     val furLength: Float = 2.6f,
     /** 0 ... 1 */
     val furDensity: Float = 0.75f,
-    /** Optional ornament pinned to the crown. It turns and swings with the head. */
-    val feather: ImageBitmap? = null,
     /** Overrides the hop interval for the current state; null keeps the state's default. */
     val jumpEverySeconds: Float? = null,
 )

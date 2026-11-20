@@ -18,8 +18,6 @@ public struct BotStyle {
     public var furLength: Double
     /// 0 ... 1
     public var furDensity: Double
-    /// Optional ornament pinned to the crown. It turns and swings with the head.
-    public var feather: UIImage?
     /// Overrides the hop interval for the current state; nil keeps the state's default.
     public var jumpEverySeconds: Double?
     /// Body outline: a preset like `.round`, or your own with `BotShape.svg(...)`.
@@ -28,11 +26,11 @@ public struct BotStyle {
     public init(
         color: Color = Color(red: 0.56, green: 0.82, blue: 0.98), ink: Color = .white,
         face: BotFace = .eyesAndMouth, brightness: Double = 1.1, furLength: Double = 2.6,
-        furDensity: Double = 0.75, feather: UIImage? = nil, jumpEverySeconds: Double? = nil,
+        furDensity: Double = 0.75, jumpEverySeconds: Double? = nil,
         customFace: BotFaceSpec? = nil, shape: BotShape = .teardrop
     ) {
         self.color = color; self.ink = ink; self.face = face; self.brightness = brightness
-        self.furLength = furLength; self.furDensity = furDensity; self.feather = feather
+        self.furLength = furLength; self.furDensity = furDensity;
         self.jumpEverySeconds = jumpEverySeconds; self.customFace = customFace
         self.shape = shape;
     }

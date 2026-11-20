@@ -79,11 +79,6 @@ class BotSimTest {
         assertTrue(sim.pose.laugh > 0.95f)
     }
 
-    @Test fun featherSwingIsBounded() {
-        val sim = BotSim(0.23f, BotState.Happy)
-        run(sim, 30f) { assertTrue(abs(it.swing) < 40f) }
-    }
-
     @Test fun hugeFrameGapIsCapped() {
         val sim = BotSim(0.2f, BotState.Happy)
         sim.update(5f)
@@ -102,7 +97,7 @@ class BotSimTest {
         for (st in BotState.entries) {
             val sim = BotSim(0.3f, st)
             run(sim, 8f) {
-                val all = listOf(it.x, it.y, it.sx, it.sy, it.yaw, it.pitch, it.roll, it.talk, it.swing)
+                val all = listOf(it.x, it.y, it.sx, it.sy, it.yaw, it.pitch, it.roll, it.talk)
                 assertTrue("$st NaN", all.none { v -> v.isNaN() })
             }
             assertTrue(BotFaceSpec.of(st) != null)

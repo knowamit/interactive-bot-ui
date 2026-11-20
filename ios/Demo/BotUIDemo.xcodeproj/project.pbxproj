@@ -8,13 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		1C77F2923EC2E5E19A017A5F /* BotUI in Frameworks */ = {isa = PBXBuildFile; productRef = A4BD274CAAC98C1F06877B61 /* BotUI */; };
-		32CF42EB8CEFBDF09586CDC3 /* feather.png in Resources */ = {isa = PBXBuildFile; fileRef = 042BAE43ACB7926ADBCF428A /* feather.png */; };
 		517C775BEB7AA0D7AF18BCA1 /* DemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5572A7FC18106D402AA66634 /* DemoApp.swift */; };
+		B6878097D6396D0A584CAB2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31C4E1DB3EAB03493D64D0DC /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		042BAE43ACB7926ADBCF428A /* feather.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = feather.png; sourceTree = "<group>"; };
 		136C0FCBC2E63799BA6987CA /* interactive-bot-ui */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "interactive-bot-ui"; path = ../..; sourceTree = SOURCE_ROOT; };
+		31C4E1DB3EAB03493D64D0DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		518FF8777D9DF06CDC9B8296 /* BotUIDemo.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BotUIDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5572A7FC18106D402AA66634 /* DemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -52,7 +52,7 @@
 		47CD70A8500FCBD5BFA76C4C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				042BAE43ACB7926ADBCF428A /* feather.png */,
+				31C4E1DB3EAB03493D64D0DC /* Assets.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -134,7 +134,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				32CF42EB8CEFBDF09586CDC3 /* feather.png in Resources */,
+				B6878097D6396D0A584CAB2F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

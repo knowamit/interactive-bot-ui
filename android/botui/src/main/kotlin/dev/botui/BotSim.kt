@@ -34,8 +34,6 @@ data class BotPose(
     val laugh: Float = 0f,
     /** 0 ... 1: eyes shut for sleep */
     val sleep: Float = 0f,
-    /** feather swing relative to the head, degrees */
-    val swing: Float = 0f,
     /** 0 ... 1 mouth opening while [BotState.Speaking] */
     val talk: Float = 0f,
     /** State being faded out, or null once the change has finished. */
@@ -126,11 +124,6 @@ class BotSim(
     private var hopAt = nextHop()
     private var hopT = -1f
     private var hopDir = 1f
-
-    // feather spring
-    private var swing = 0f
-    private var swingVel = 0f
-    private var prevYaw = 0f
 
     init {
         snapMood()
@@ -282,18 +275,10 @@ class BotSim(
 
         val blink = if (blinkT >= 0f) blinkCurve(blinkT / BLINK_TIME) else 0f
 
-        // feather lags behind a head turn, like the web version
-        val yawVel = if (dt > 0f) (yaw - prevYaw) / dt else 0f
-        prevYaw = yaw
-        val swingTarget = (-yawVel * TRAIL + roll * 180f / PI.toFloat() * 0.3f)
-            .coerceIn(-MAX_SWING, MAX_SWING)
-        swingVel += (SPRING_K * (swingTarget - swing) - SPRING_D * swingVel) * dt
-        swing += swingVel * dt
-
         pose = BotPose(
             yaw = yaw, pitch = pitch, roll = roll, x = x, y = y, sx = sx, sy = sy,
             blink = blink, lookX = lookX, lookY = lookYM,
-            breath = breath, laugh = laughM, sleep = sleepM, swing = swing,
+            breath = breath, laugh = laughM, sleep = sleepM,
             talk = talk, from = fromState, blend = smooth(blendT), time = t,
         )
     }
@@ -338,10 +323,6 @@ class BotSim(
         private const val BLINK_TIME = 0.16f
         private const val MOOD_RATE = 6f
         private const val FACE_FADE = 0.22f
-        private const val TRAIL = 6f
-        private const val MAX_SWING = 18f
-        private const val SPRING_K = 60f
-        private const val SPRING_D = 9f
 
         fun defaultJumpEvery(state: BotState): Float = BotMotion.of(state).jumpEvery
     }

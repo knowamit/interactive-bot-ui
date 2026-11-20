@@ -60,14 +60,17 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val start = intent.getStringExtra("state")?.let { n -> BotState.entries.firstOrNull { it.name == n } }
-        val shape = intent.getStringExtra("shape")?.takeIf { it in SHAPES }
-        setContent { MaterialTheme { Demo(start ?: BotState.Neutral, shape ?: "Teardrop") } }
+        setContent { MaterialTheme { Demo(start ?: BotState.Neutral) } }
     }
 }
 
+private val HEART_SVG = "M50 95C10 65 0 40 15 20C28 5 45 12 50 28C55 12 72 5 85 20C100 40 90 65 50 95Z"
+
+private val PADDING = 20.dp
+
 private val BEAN_SVG = "M20 40C20 10 80 10 80 40C95 55 85 95 50 95C15 95 5 55 20 40Z"
 
-private val SHAPES = linkedMapOf(
+internal val SHAPES = linkedMapOf(
     "Teardrop" to BotShape.Teardrop,
     "Round" to BotShape.Round,
     "Egg" to BotShape.Egg,
@@ -75,47 +78,41 @@ private val SHAPES = linkedMapOf(
     "Blossom" to BotShape.Blossom,
     "Squircle" to BotShape.Squircle,
     "Bean" to BotShape.svg(BEAN_SVG),
+    "Heart" to BotShape.svg(HEART_SVG),
 )
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun Demo(initial: BotState, initialShape: String) {
+private fun Demo(initial: BotState) {
     var state by remember { mutableStateOf(initial) }
     var color by remember { mutableStateOf(SWATCHES[1].second) }
     var brightness by remember { mutableFloatStateOf(1.1f) }
     var furLength by remember { mutableFloatStateOf(2.6f) }
     var mouth by remember { mutableStateOf(true) }
-    var feather by remember { mutableStateOf(true) }
     var custom by remember { mutableStateOf(false) }
     var eyes by remember { mutableStateOf(BotEyes.Oval) }
     var mouthShape by remember { mutableStateOf(BotMouth.Smile) }
     var eyeScale by remember { mutableFloatStateOf(1f) }
     var eyeTilt by remember { mutableFloatStateOf(0f) }
-    var shapeName by remember { mutableStateOf(initialShape) }
-    val featherBitmap = androidx.compose.ui.graphics.ImageBitmap.imageResource(R.drawable.feather)
 
     Column(
-        Modifier.fillMaxSize().background(Color.White).verticalScroll(rememberScrollState()).padding(20.dp),
+        Modifier.fillMaxSize().background(Color.White).verticalScroll(rememberScrollState()).padding(PADDING),
         verticalArrangement = Arrangement.spacedBy(14.dp),
     ) {
-        Box(Modifier.fillMaxWidth().padding(top = 36.dp), contentAlignment = Alignment.Center) {
-            BotView(
-                state = state,
-                modifier = Modifier.size(260.dp),
-                style = BotStyle(
-                    color = color,
-                    brightness = brightness,
-                    furLength = furLength,
-                    face = if (mouth) BotFace.EyesAndMouth else BotFace.Eyes,
-                    feather = if (feather) featherBitmap else null,
-                    shape = SHAPES.getValue(shapeName),
-                    customFace = if (custom) {
-                        BotFaceSpec(eyes, mouthShape, eyeScale = eyeScale, eyeTilt = eyeTilt)
-                    } else null,
-                ),
-                seed = 0.11f + state.ordinal * 0.17f,
-            )
-        }
+        ShapeStrip(
+            state = state,
+            style = BotStyle(
+                color = color,
+                brightness = brightness,
+                furLength = furLength,
+                face = if (mouth) BotFace.EyesAndMouth else BotFace.Eyes,
+                customFace = if (custom) {
+                    BotFaceSpec(eyes, mouthShape, eyeScale = eyeScale, eyeTilt = eyeTilt)
+                } else null,
+            ),
+            containerPadding = PADDING,
+            modifier = Modifier.padding(top = 24.dp),
+        )
         Text("Mood")
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             BotState.entries.forEach { s ->
@@ -143,12 +140,6 @@ private fun Demo(initial: BotState, initialShape: String) {
             Text("Eye tilt %.2f (angry to sad)".format(eyeTilt))
             Slider(eyeTilt, { eyeTilt = it }, valueRange = -1f..1f)
         }
-        Text("Body shape")
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            SHAPES.keys.forEach { n ->
-                FilterChip(selected = n == shapeName, onClick = { shapeName = n }, label = { Text(n) })
-            }
-        }
         Text("Tap BotUI to giggle, hold for love", color = Color.Gray)
         Text("Colour")
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -166,7 +157,6 @@ private fun Demo(initial: BotState, initialShape: String) {
         Slider(furLength, { furLength = it }, valueRange = 0f..7f)
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             Switch(mouth, { mouth = it }); Text("Mouth")
-            Switch(feather, { feather = it }); Text("Feather")
         }
     }
 }

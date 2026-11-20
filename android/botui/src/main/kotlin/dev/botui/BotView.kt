@@ -47,7 +47,7 @@ private val CENTRE = Offset(50f, 55f)
  * BotUI, the fuzzy teardrop companion. Drawn natively on a Compose [Canvas]:
  * no web view, no bitmaps for the body, so [style] changes apply instantly.
  *
- * Give it room above the head if you set a feather: it sticks out past the box.
+ * Give it room above the head: badges such as the light bulb float past the box.
  */
 @Composable
 fun BotView(
@@ -89,7 +89,6 @@ fun BotView(
     }
 
     val path = remember(style.shape) { style.shape.toPath() }
-    val anchor = remember(path) { featherAnchor(path) }
     val fur = remember(seed, path, style.furLength, style.furDensity) {
         Fur.build(path, (seed * 1_000_000f).toInt() + 7, style.furLength, style.furDensity)
     }
@@ -105,7 +104,7 @@ fun BotView(
         )
     }
     Canvas(modifier.aspectRatio(1f).then(touch)) {
-        drawBot(pose, shown, style, path, bodyArt, anchor)
+        drawBot(pose, shown, style, path, bodyArt)
     }
 }
 
@@ -119,12 +118,6 @@ private fun fire(current: Reaction?, state: BotState, millis: Long, set: (Reacti
     // a tap while giggling keeps giggling, but a long press may take over
     if (current?.state == BotState.Love && state == BotState.Giggle) return
     set(Reaction(state, millis))
-}
-
-/** Where the feather pins: right of the crown, same proportions as the teardrop. */
-private fun featherAnchor(path: Path): Offset {
-    val b = path.getBounds()
-    return Offset(b.left + b.width * 0.6375f, b.top + b.height * 0.169f)
 }
 
 @Composable
@@ -146,7 +139,6 @@ private fun DrawScope.drawBot(
     style: BotStyle,
     path: Path,
     bodyArt: ImageBitmap,
-    anchor: Offset,
 ) {
     val s = size.minDimension / 100f
     val base = shadeColor(style.color, style.brightness)
@@ -166,17 +158,6 @@ private fun DrawScope.drawBot(
         rotate(rollDeg, Offset(50f, 70f))
     }) {
         drawBody(path, bodyArt, cosY, pose, state, style, base)
-    }
-
-    // ornament: follows the head's turn and the hop, not the width squeeze
-    style.feather?.let { bmp ->
-        withTransform({
-            scale(s, s, Offset.Zero)
-            translate(pose.x, pose.y)
-            scale(pose.sx, pose.sy, pivot)
-        }) {
-            drawFeather(bmp, pose, anchor)
-        }
     }
 
     // badge: floats beside the head, follows the hop
@@ -258,32 +239,4 @@ private fun DrawScope.drawBody(
         drawPath(path, Color.Black.copy(alpha = 0.14f * (1f - frontness)))
     }
     if (frontness > 0f) drawFaces(pose, state, style, cosY, frontness)
-}
-
-/** Same pinning maths as the web version: the anchor turns with the head. */
-private fun DrawScope.drawFeather(bmp: androidx.compose.ui.graphics.ImageBitmap, pose: BotPose, anchor: Offset) {
-    val px = anchor.x - CENTRE.x
-    val py = anchor.y - CENTRE.y
-    val pz = 6f
-    val x1 = px * cos(pose.yaw) + pz * sin(pose.yaw)
-    val z1 = -px * sin(pose.yaw) + pz * cos(pose.yaw)
-    val y2 = py * cos(pose.pitch) - z1 * sin(pose.pitch)
-    val z2 = py * sin(pose.pitch) + z1 * cos(pose.pitch)
-    if (z2 <= -4f) return
-    val x3 = x1 * cos(pose.roll) - y2 * sin(pose.roll)
-    val y3 = x1 * sin(pose.roll) + y2 * cos(pose.roll)
-    val at = Offset(CENTRE.x + x3, CENTRE.y + y3)
-    val angle = pose.roll * 180f / PI.toFloat() + pose.swing
-    withTransform({
-        translate(at.x, at.y)
-        rotate(angle, Offset.Zero)
-    }) {
-        drawImage(
-            bmp,
-            srcOffset = IntOffset.Zero,
-            srcSize = IntSize(bmp.width, bmp.height),
-            dstOffset = IntOffset(-4, -44),
-            dstSize = IntSize(48, 48),
-        )
-    }
 }

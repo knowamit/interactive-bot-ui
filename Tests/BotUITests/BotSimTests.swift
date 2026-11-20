@@ -52,13 +52,6 @@ final class BotSimTests: XCTestCase {
         XCTAssertLessThan(minY, -15)
     }
 
-    func testSwingBounded() {
-        let sim = BotSim(seed: 0.2, state: .happy)
-        var worst = 0.0
-        run(sim, seconds: 20) { worst = max(worst, abs($0.swing)) }
-        XCTAssertLessThan(worst, 30)
-    }
-
     func testBigDtIsCapped() {
         let sim = BotSim(seed: 0.2, state: .happy)
         sim.update(dt: 5)
@@ -81,7 +74,7 @@ final class BotSimTests: XCTestCase {
         for st in BotState.allCases {
             let sim = BotSim(seed: 0.3, state: st)
             run(sim, seconds: 8) {
-                let v = [$0.x, $0.y, $0.sx, $0.sy, $0.yaw, $0.pitch, $0.roll, $0.talk, $0.swing]
+                let v = [$0.x, $0.y, $0.sx, $0.sy, $0.yaw, $0.pitch, $0.roll, $0.talk]
                 XCTAssertTrue(v.allSatisfy { !$0.isNaN }, "\(st)")
             }
             XCTAssertEqual(BotFaceSpec.of(st), BotFaceSpec.of(st))
@@ -194,10 +187,5 @@ final class BotSimTests: XCTestCase {
         let fur = Fur.build(outline: BotShape.round.outline, seed: 3, length: 2.6, density: 0.5)
         XCTAssertFalse(fur.rim.isEmpty)
         XCTAssertFalse(fur.light.isEmpty)
-    }
-
-    func testFeatherAnchorSitsOnTheUpperRight() {
-        let a = BotShape.round.outline.featherAnchor
-        XCTAssertGreaterThan(a.x, 50); XCTAssertLessThan(a.y, 40)
     }
 }
