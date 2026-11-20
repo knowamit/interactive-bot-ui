@@ -1,0 +1,24 @@
+name: BotUIDemo
+options:
+  bundleIdPrefix: dev.botui
+  deploymentTarget:
+    iOS: "16.0"
+packages:
+  BotUI:
+    path: ../BotUI
+targets:
+  BotUIDemo:
+    type: application
+    platform: iOS
+    sources:
+      - Sources
+      - Resources
+    dependencies:
+      - package: BotUI
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.botui.demo
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_CFBundleDisplayName: BotUI Demo
+        SWIFT_VERSION: "5.9"
