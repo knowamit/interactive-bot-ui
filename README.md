@@ -1,21 +1,59 @@
 # Interactive Bot UI
 
-Interactive animated bot avatar for native Android (Jetpack Compose) and iOS (SwiftUI), drawn natively. No web view. Colour and mood change at runtime.
+**An animated, touch-reactive bot avatar for native Android (Jetpack Compose) and iOS (SwiftUI).**
+A fluffy mascot with 17 moods, drawn natively: no web view, no Lottie, no video files. Use it as the
+face of an AI assistant, chatbot, voice assistant, onboarding guide or loading state, and recolour it
+or change its mood at runtime.
 
 ![Interactive Bot UI demo: all body shapes changing colour and mood](docs/demo.gif)
+
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+![Platforms](https://img.shields.io/badge/platforms-Android%20%7C%20iOS-lightgrey)
+![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-supported-4285F4)
+![SwiftUI](https://img.shields.io/badge/SwiftUI-supported-F05138)
+
+## Why use it
+
+- **Native on both platforms.** Jetpack Compose `Canvas` on Android, SwiftUI `Canvas` on iOS. Same
+  design, same motion constants, same API shape on both.
+- **17 moods.** Happy, Thinking, Idea, Love, Listening, Speaking, Success, Error and more. Switch with
+  one parameter and the face crossfades.
+- **Made for assistant UIs.** Listening, Thinking and Speaking states map directly onto a voice or chat
+  assistant's turn-taking.
+- **Touch reactions built in.** Tap to giggle, press and hold for love.
+- **Fully styleable.** Any colour, fur length and density, brightness, six built-in body shapes, plus your own
+  shape from an SVG path.
+- **Custom faces.** Mix 7 eye styles and 10 mouth styles to build any expression.
+- **Dependency-light.** Plain Kotlin and Swift. Android needs only AndroidX Compose, iOS only SwiftUI.
+- **Respects accessibility.** Animation stops when the system reduces motion.
+
+## What is included
+
+| Part | Options |
+| --- | --- |
+| Body shapes (6) | Teardrop (default), Round, Egg, Blob, Blossom, Squircle |
+| Custom body | any SVG path via `BotShape.svg(...)` (the demo apps add Bean and Heart this way) |
+| Eyes (7) | Oval, ArcUp, ArcDown, Heart, Star, Cross, Slit |
+| Mouths (10) | None, Smile, Grin, Open, O, Flat, Frown, Wavy, Dot, Talk |
+| Face mode (2) | Eyes, EyesAndMouth |
+| Moods (17) | Neutral, Happy, Working, Sleeping, Thinking, Idea, Love, Sad, Surprised, Angry, Confused, Excited, Listening, Speaking, Success, Error, Giggle |
+| Badges | thought bubble (Thinking), light bulb (Idea) |
+| Style knobs | colour, brightness, fur length, fur density |
+| Face knobs | `eyeScale`, `eyeScaleRight`, `eyeTilt`, `lookX`, `lookY`, `mouthScale`, `mouthShift` |
+| Touch | tap = giggle, press and hold = love |
 
 ## Install
 
 ### Android (Gradle)
 
-minSdk 24, Jetpack Compose. Published through JitPack once the repo is public:
+minSdk 24, Jetpack Compose. Published through JitPack:
 
 ```kotlin
 // settings.gradle.kts
 dependencyResolutionManagement { repositories { maven("https://jitpack.io") } }
 
 // app/build.gradle.kts
-implementation("com.github.knowamit:interactive-bot-ui:0.1.0")
+implementation("com.github.knowamit:interactive-bot-ui:0.2.0")
 ```
 
 Or include the module directly: copy `android/botui` and add `include(":botui")`.
@@ -26,16 +64,18 @@ iOS 16+, SwiftUI. In Xcode use File > Add Package Dependencies and enter
 `https://github.com/knowamit/interactive-bot-ui`, or in `Package.swift`:
 
 ```swift
-.package(url: "https://github.com/knowamit/interactive-bot-ui", from: "0.1.0")
+.package(url: "https://github.com/knowamit/interactive-bot-ui", from: "0.2.0")
 ```
 
 Then `import BotUI`.
 
-## Android (Jetpack Compose)
+## Quick start
 
-Module `android/botui`. Demo: `android/app`.
+### Android (Jetpack Compose)
 
 ```kotlin
+import dev.botui.*
+
 BotView(
     state = BotState.Happy,            // see States below
     modifier = Modifier.size(260.dp),
@@ -47,13 +87,14 @@ BotView(
 )
 ```
 
-Build: `cd android && ./gradlew :app:assembleDebug`. Tests: `:botui:testDebugUnitTest`.
+Module `android/botui`. Demo app: `android/app`. Build: `cd android && ./gradlew :app:assembleDebug`.
+Tests: `:botui:testDebugUnitTest`.
 
-## iOS (SwiftUI)
-
-Swift package at the repo root (iOS 16+). Demo: `ios/Demo` (`xcodegen generate`, then open the project).
+### iOS (SwiftUI)
 
 ```swift
+import BotUI
+
 BotView(
     state: .happy,                       // see States below
     style: BotStyle(color: Color(red: 0.96, green: 0.16, blue: 0.16),
@@ -61,7 +102,37 @@ BotView(
     .frame(width: 260, height: 260)
 ```
 
+Swift package at the repo root. Demo app: `ios/Demo` (`xcodegen generate`, then open the project).
 Tests: `swift test` at the repo root.
+
+## Demo apps
+
+Both demos show every body shape in one horizontal row (four visible at a time, swipe for the rest)
+and drive them all from the same controls: mood, colour, brightness, fur length, mouth and custom face.
+Tap a bot to giggle, hold for love.
+
+## Use it as an AI assistant avatar
+
+Map your assistant's phases to states:
+
+| Assistant phase | State |
+| --- | --- |
+| Idle | `Neutral` |
+| Listening to the user | `Listening` |
+| Waiting for the model | `Thinking` |
+| Speaking a reply | `Speaking` |
+| Got a good idea | `Idea` |
+| Task finished | `Success` |
+| Something failed | `Error` |
+
+```kotlin
+BotView(state = when (phase) {
+    Phase.Listening -> BotState.Listening
+    Phase.Thinking  -> BotState.Thinking
+    Phase.Speaking  -> BotState.Speaking
+    else            -> BotState.Neutral
+})
+```
 
 ## States
 
@@ -93,8 +164,10 @@ Pass `touchReactions = false` to turn it off.
 
 ## Body shape
 
+Built-in shapes: Teardrop (default), Round, Egg, Blob, Blossom, Squircle.
+
 ```kotlin
-style = BotStyle(shape = BotShape.Round)          // Teardrop (default), Round, Egg, Blob, Blossom, Squircle
+style = BotStyle(shape = BotShape.Round)
 style = BotStyle(shape = BotShape.svg("M20 40C20 10 80 10 80 40C95 55 85 95 50 95C15 95 5 55 20 40Z"))
 ```
 
@@ -105,7 +178,7 @@ BotStyle(shape: .svg("M20 40C20 10 80 10 80 40C95 55 85 95 50 95C15 95 5 55 20 4
 
 `svg` takes the first sub-path of any SVG path string (`M L H V C S Q Z`, absolute or relative, any
 units, no arcs). It is scaled to fit and stands on the ground. A bad path falls back to the teardrop.
-Fur and shading follow the shape.
+Fur and shading follow the shape. The demo apps also include Bean and Heart shapes made this way.
 
 ## Custom face
 
@@ -122,15 +195,23 @@ BotStyle(customFace: BotFaceSpec(
     eyes: .star, mouth: .open, eyeScale: 1.2, eyeTilt: -0.4))
 ```
 
-Eyes: Oval, ArcUp, ArcDown, Heart, Star, Cross, Slit. Mouth: None, Smile, Grin, Open, O, Flat, Frown,
-Wavy, Dot, Talk (Swift spells the empty mouth `.none`). `eyeTilt` runs -1 (angry) to 1 (sad) and turns
-oval and slit eyes. Also: `eyeScaleRight`, `lookX`, `lookY`, `mouthScale`, `mouthShift`.
+Eye and mouth names are listed in [What is included](#what-is-included) (Swift spells the empty mouth
+`.none`). `eyeTilt` runs -1 (angry) to 1 (sad) and turns oval and slit eyes.
+
+## Layout note
+
+The bot has no built-in margin on Android, so badges such as the light bulb and the hop float past the
+top of the body. Leave some room above the head (the demo uses about 24dp).
 
 ## Parity
 
 Both ports share the same sim constants (seeded mulberry32, hop, blink, gaze), body path and
-shading. Fur is a close approximation of the web version, not a pixel match. Animation stops when the system
-reduces motion. Leave room above the head: badges such as the light bulb float past the body.
+shading. Fur is a close approximation, not a pixel match across platforms.
+
+## Contributing
+
+Issues and pull requests are welcome. Run the tests before opening a PR: `swift test` at the root and
+`cd android && ./gradlew :botui:testDebugUnitTest`.
 
 ## License
 
