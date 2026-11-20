@@ -5,7 +5,7 @@ options:
     iOS: "16.0"
 packages:
   BotUI:
-    path: ../BotUI
+    path: ../..
 targets:
   BotUIDemo:
     type: application

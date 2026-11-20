@@ -14,9 +14,9 @@
 
 /* Begin PBXFileReference section */
 		042BAE43ACB7926ADBCF428A /* feather.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = feather.png; sourceTree = "<group>"; };
+		136C0FCBC2E63799BA6987CA /* interactive-bot-ui */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "interactive-bot-ui"; path = ../..; sourceTree = SOURCE_ROOT; };
 		518FF8777D9DF06CDC9B8296 /* BotUIDemo.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BotUIDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5572A7FC18106D402AA66634 /* DemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoApp.swift; sourceTree = "<group>"; };
-		7DE99B0F2ABD401485769758 /* BotUI */ = {isa = PBXFileReference; lastKnownFileType = folder; name = BotUI; path = ../BotUI; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,7 +34,7 @@
 		416FE2CED10FB718D2C79837 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				7DE99B0F2ABD401485769758 /* BotUI */,
+				136C0FCBC2E63799BA6987CA /* interactive-bot-ui */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -117,7 +117,7 @@
 			mainGroup = 43C72FAE02E278CBF600FC9A;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				578691B80B98A25C48F7047D /* XCLocalSwiftPackageReference "../BotUI" */,
+				BB69CAAA977884D952E60C98 /* XCLocalSwiftPackageReference "../.." */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 79B3D7E6450B326B85D2C5B0 /* Products */;
@@ -333,9 +333,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		578691B80B98A25C48F7047D /* XCLocalSwiftPackageReference "../BotUI" */ = {
+		BB69CAAA977884D952E60C98 /* XCLocalSwiftPackageReference "../.." */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../BotUI;
+			relativePath = ../..;
 		};
 /* End XCLocalSwiftPackageReference section */
 

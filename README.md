@@ -2,6 +2,33 @@
 
 Interactive animated bot avatar for native Android (Jetpack Compose) and iOS (SwiftUI), drawn natively. No web view. Colour and mood change at runtime.
 
+## Install
+
+### Android (Gradle)
+
+minSdk 24, Jetpack Compose. Published through JitPack once the repo is public:
+
+```kotlin
+// settings.gradle.kts
+dependencyResolutionManagement { repositories { maven("https://jitpack.io") } }
+
+// app/build.gradle.kts
+implementation("com.github.knowamit:interactive-bot-ui:0.1.0")
+```
+
+Or include the module directly: copy `android/botui` and add `include(":botui")`.
+
+### iOS (Swift Package Manager)
+
+iOS 16+, SwiftUI. In Xcode use File > Add Package Dependencies and enter
+`https://github.com/knowamit/interactive-bot-ui`, or in `Package.swift`:
+
+```swift
+.package(url: "https://github.com/knowamit/interactive-bot-ui", from: "0.1.0")
+```
+
+Then `import BotUI`.
+
 ## Android (Jetpack Compose)
 
 Module `android/botui`. Demo: `android/app`.
@@ -23,7 +50,7 @@ Build: `cd android && ./gradlew :app:assembleDebug`. Tests: `:botui:testDebugUni
 
 ## iOS (SwiftUI)
 
-Swift package `ios/BotUI` (iOS 16+). Demo: `ios/Demo` (`xcodegen generate`, then open the project).
+Swift package at the repo root (iOS 16+). Demo: `ios/Demo` (`xcodegen generate`, then open the project).
 
 ```swift
 BotView(
@@ -34,7 +61,7 @@ BotView(
     .frame(width: 260, height: 260)
 ```
 
-Tests: `cd ios/BotUI && swift test`.
+Tests: `swift test` at the repo root.
 
 ## States
 
@@ -104,3 +131,7 @@ oval and slit eyes. Also: `eyeScaleRight`, `lookX`, `lookY`, `mouthScale`, `mout
 Both ports share the same sim constants (seeded mulberry32, hop, blink, gaze, feather spring), body path and
 shading. Fur is a close approximation of the web version, not a pixel match. Animation stops when the system
 reduces motion. Leave room above the head for the feather.
+
+## License
+
+MIT, see [LICENSE](LICENSE).
