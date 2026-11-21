@@ -7,6 +7,7 @@ or change its mood at runtime.
 
 ![Interactive Bot UI demo: all body shapes changing colour and mood](docs/demo.gif)
 
+[![CI](https://github.com/knowamit/interactive-bot-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/knowamit/interactive-bot-ui/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Platforms](https://img.shields.io/badge/platforms-Android%20%7C%20iOS-lightgrey)
 ![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-supported-4285F4)

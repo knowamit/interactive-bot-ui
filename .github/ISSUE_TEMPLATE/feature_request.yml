@@ -1,0 +1,15 @@
+name: Feature request
+description: A new mood, face part, shape or option
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like to add, and what is it for?
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options: [Both (preferred, keeps parity), Android only, iOS only]
