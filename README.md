@@ -213,6 +213,12 @@ top of the body. Leave some room above the head (the demo uses about 24dp).
 Both ports share the same sim constants (seeded mulberry32, hop, blink, gaze), body path and
 shading. Fur is a close approximation, not a pixel match across platforms.
 
+## See also
+
+- [bloub](https://github.com/jeremy-prt/bloub): a web (Vue and SVG) recreation of the x.ai bot avatar,
+  with an animation editor and GIF/MP4 export. Interactive Bot UI is a different project: a native
+  Jetpack Compose and SwiftUI library with its own furry design and no shared code.
+
 ## Contributing
 
 Issues and pull requests are welcome. Run the tests before opening a PR: `swift test` at the root and
