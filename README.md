@@ -5,6 +5,10 @@ A fluffy mascot with 17 moods, drawn natively: no web view, no Lottie, no video 
 face of an AI assistant, chatbot, voice assistant, onboarding guide or loading state, and recolour it
 or change its mood at runtime.
 
+Looking for a Lottie alternative, an animated mascot or an AI assistant avatar for Jetpack Compose and
+SwiftUI? This is a native, code-drawn option with no animation files to ship. Website:
+https://knowamit.github.io/interactive-bot-ui/
+
 ![Interactive Bot UI demo: all body shapes changing colour and mood](docs/demo.gif)
 
 [![CI](https://github.com/knowamit/interactive-bot-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/knowamit/interactive-bot-ui/actions/workflows/ci.yml)

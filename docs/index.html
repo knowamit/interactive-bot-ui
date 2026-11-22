@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interactive Bot UI - animated bot avatar for Jetpack Compose and SwiftUI</title>
+<meta name="description" content="Animated, touch-reactive bot avatar for native Android (Jetpack Compose) and iOS (SwiftUI). 17 moods, custom faces and shapes. A Lottie alternative with no animation files.">
+<link rel="canonical" href="https://knowamit.github.io/interactive-bot-ui/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Interactive Bot UI">
+<meta property="og:description" content="Animated, touch-reactive bot avatar for Jetpack Compose and SwiftUI. 17 moods, custom faces and shapes.">
+<meta property="og:url" content="https://knowamit.github.io/interactive-bot-ui/">
+<meta property="og:image" content="https://knowamit.github.io/interactive-bot-ui/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Interactive Bot UI","description":"Animated, touch-reactive bot avatar for native Android (Jetpack Compose) and iOS (SwiftUI).","codeRepository":"https://github.com/knowamit/interactive-bot-ui","programmingLanguage":["Kotlin","Swift"],"license":"https://opensource.org/licenses/MIT","runtimePlatform":["Android","iOS"]}
+</script>
+<style>
+:root{--bg:#fff;--fg:#1a1a1f;--muted:#5b5b66;--card:#f4f4f8;--accent:#5b5bd6}
+@media (prefers-color-scheme:dark){:root{--bg:#111116;--fg:#ececf1;--muted:#a0a0ad;--card:#1b1b22;--accent:#8c8cf0}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:760px;margin:0 auto;padding:40px 16px}
+h1{font-size:2rem;line-height:1.2;margin:0 0 12px}
+h2{font-size:1.25rem;margin:32px 0 8px}
+p,li{color:var(--muted)}
+img{max-width:100%;height:auto;border-radius:12px}
+pre{background:var(--card);color:var(--fg);padding:14px;border-radius:10px;overflow-x:auto;font-size:.875rem}
+a{color:var(--accent)}
+.btn{display:inline-block;background:var(--accent);color:#fff;padding:10px 18px;border-radius:10px;text-decoration:none;margin-right:8px}
+</style>
+</head>
+<body>
+<main>
+<h1>Interactive Bot UI</h1>
+<p>An animated, touch-reactive bot avatar for native Android (Jetpack Compose) and iOS (SwiftUI). 17 moods, drawn natively with no web view, no Lottie and no video files.</p>
+<p><a class="btn" href="https://github.com/knowamit/interactive-bot-ui">View on GitHub</a><a href="https://github.com/knowamit/interactive-bot-ui#quick-start">Quick start</a></p>
+<img src="demo.gif" alt="Interactive Bot UI demo: all body shapes changing colour and mood" width="760">
+<h2>Why use it</h2>
+<ul>
+<li>Native on both platforms, same design and API shape.</li>
+<li>17 moods, including Listening, Thinking and Speaking for assistant turn-taking.</li>
+<li>Touch reactions built in. Fully styleable, with custom faces and SVG body shapes.</li>
+<li>Dependency-light, and respects reduced-motion settings.</li>
+</ul>
+<h2>Install</h2>
+<p>Android (JitPack):</p>
+<pre>implementation("com.github.knowamit:interactive-bot-ui:0.2.0")</pre>
+<p>iOS (Swift Package Manager):</p>
+<pre>.package(url: "https://github.com/knowamit/interactive-bot-ui", from: "0.2.0")</pre>
+<p>MIT licensed.</p>
+</main>
+</body>
+</html>
